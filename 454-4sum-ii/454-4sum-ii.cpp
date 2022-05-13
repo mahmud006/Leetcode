@@ -12,10 +12,7 @@ public:
         int cnt = 0;
         for(int i=0; i<n; i++){
             for(int j=0; j<n; j++){
-                int s = (nums3[i] + nums4[j]);
-                if(s!=0){
-                    s = s*(-1);
-                }
+                int s = (-(nums3[i] + nums4[j]));
                 if (mp.count(s)){
                     cnt+= mp[s];
                 }
