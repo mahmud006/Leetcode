@@ -1,22 +1,14 @@
 class Solution {
 public:
     string checkIPv4(string s){
-        int currNum = 0;
-        int flg = 0, dot = 0;
+        int currNum = 0, dot = 0;
         if((s[0]=='0' && s[1]!='.') || (s[0]=='.' || s[s.size()-1]=='.')){
-            flg++;
+            return "Neither";
         }
         for(int i=0; i<s.size(); i++){
             if(s[i]=='.'){
                 dot++;
-                if((dot>3 || s[i+1]=='.') || (s[i+1]=='0' && s[i+2]!='.') || (currNum>255)) flg++;
-                // if(s[i+1]=='0' && s[i+2]!='.'){
-                //     flg++;
-                // }
-                // if(currNum>255){
-                //     flg++;
-                // }
-                //cout << currNum <<endl;
+                if((dot>3 || s[i+1]=='.') || (s[i+1]=='0' && s[i+2]!='.') || (currNum>255)) return "Neither";
                 currNum = 0;
                 continue;
             }
@@ -24,66 +16,54 @@ public:
                 currNum = currNum * 10 + (s[i] - '0');
             }
             else{
-                flg++;
+                return "Neither";
             }
         }
-        //cout << currNum <<endl;
-        if(currNum>255 || dot<3) flg++;
-        
-        if(flg==0) return "IPv4";
-        return "Neither";
+        if(currNum>255 || dot<3) return "Neither";
+        return "IPv4";
     }
     string checkIPv6(string s){
-        string str;
-        int flg = 0, colon=0;
-        if(s[0]==':' || s[s.size()-1]==':') flg++;
+        string str, res;
+        int colon=0;
+        if(s[0]==':' || s[s.size()-1]==':') return "Neither";
         for(int i=0; i<s.size(); i++){
             if(s[i]==':'){
                 colon++;
-                if(colon>7 || s[i+1]==':') flg++;
-                if(str.size()<=4){
-                    for(int j=0; j<str.size(); j++){
-                        if(!isxdigit(str[j])){
-                            flg++;
-                        }
-                    }
-                }else{
-                    flg++;
-                }
-                cout << str <<endl;
+                if(colon>7 || s[i+1]==':' || str.size()>4) return "Neither";
+                res = check(str);
+                if(res=="Neither") return "Neither";
                 str = "";
                 continue;
             }
             str += s[i];
         }
+        res = check(str);
+        if((str.size()>4) || colon<7){
+            return "Neither";
+        }
+        return res;
+    }
+    string check(string str){
         if(str.size()<=4){
             for(int j=0; j<str.size(); j++){
                 if(!isxdigit(str[j])){
-                    flg++;
+                    return "Neither";
                 }
             }
         }
-        else if((str.size()>4) || colon<7){
-            flg++;
-        }
-        //if(colon<7) flg++;
-        if(flg==0) return "IPv6";
-        return "Neither";
+        return "IPv6";
     }
     string validIPAddress(string queryIP) {
-        string str = "Neither";
         if(queryIP.size()<40){
             for(int i=0; i<queryIP.size(); i++){
                 if(queryIP[i]=='.'){
-                    str = checkIPv4(queryIP);
-                    break;
+                    return checkIPv4(queryIP);
                 }
                 if(queryIP[i]==':'){
-                    str = checkIPv6(queryIP);
-                    break;
+                    return checkIPv6(queryIP);
                 }
             }
         }
-        return str;
+        return "Neither";
     }
 };
