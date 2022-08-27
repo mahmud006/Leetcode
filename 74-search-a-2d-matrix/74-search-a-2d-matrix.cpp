@@ -1,32 +1,19 @@
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        int L = 0, R = matrix.size()-1, mid;
-        while(L<R){
+        int L = 0, R = matrix[0].size()*matrix.size()-1, mid;
+        while(L<=R){
             mid = L + (R-L+1)/2;
-            if(matrix[mid][0]==target){
+            int r = mid/matrix[0].size();
+            int c = mid%matrix[0].size();
+            if(matrix[r][c]==target){
                 return true;
             }
-            if(matrix[mid][0]>target){
+            if(matrix[r][c]>target){
                 R = mid - 1;
             }
             else{
-                L = mid;
-            }
-        }
-        cout << L << " " << R<<endl;
-        int l = 0, r = matrix[L].size()-1, m;
-        while(l<=r){
-            m = l + (r-l)/2;
-            //cout << matrix[L][m] << endl;
-            if(matrix[L][m]==target){
-                return true;
-            }
-            if(matrix[L][m]>target){
-                r = m - 1;
-            }
-            else{
-                l = m + 1;
+                L = mid + 1;
             }
         }
         return false;
