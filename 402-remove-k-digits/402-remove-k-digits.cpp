@@ -1,32 +1,30 @@
 class Solution {
 public:
-    string rmv(string &num, int k){
-        int flg = 0;
-        for(int i=0; i<num.size()-1; i++){
-            if(num[i]>num[i+1] && k>0){
-                num.erase(num.begin()+i);
+    string removeKdigits(string num, int k) {
+        stack<char>stk;
+        stk.push(num[0]);
+        for(int i=1; i<num.size(); i++){
+            while(k>0 && !stk.empty() && stk.top()>num[i]){
+                stk.pop();
                 k--;
-                if(i==0){
-                    i--;
-                }
-                else{
-                    i-=2;
-                }
             }
+            stk.push(num[i]);
         }
-        //cout << num <<endl;
-        while(k>0){
-            num.erase(num.begin()+(num.size()-1));
+        while(k>0 && !stk.empty()){
+            stk.pop();
             k--;
         }
-        //cout << num <<endl;
-        return num;
-    }
-    string removeKdigits(string num, int k) {
-        rmv(num, k);
-        while(num[0]=='0'){
-            num.erase(num.begin());
+        
+        string res;
+        while(!stk.empty()){
+            res.push_back(stk.top());
+            stk.pop();
         }
-        return num==""? "0":num;
+        while(!res.empty() && res.back()=='0'){
+            res.pop_back();
+        }
+        if(res.empty()) return "0";
+        reverse(res.begin(), res.end());
+        return res;
     }
 };
