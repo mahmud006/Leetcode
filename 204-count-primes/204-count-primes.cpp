@@ -16,7 +16,14 @@ public:
                 }
             }
         }
-        return (n-1)-(cntComposite+1);
+        int cnt = 0;
+        for(int i=2; i<n; i++){
+            if(vis[i]==0){
+                cnt++;
+            }
+        }
+        //return (n-1)-(cntComposite+1);
+        return cnt;
     }
     int countPrimes(int n) {
         return sieve(n);
