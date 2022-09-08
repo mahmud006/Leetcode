@@ -11,7 +11,6 @@ public:
             j--;
         }
         for(int i=0; i<nums.size(); i++){
-            cout << arr1[i] << " "<<arr2[i] <<endl;
             if(arr1[i]==arr2[i]) return i;
         }
         return -1;
