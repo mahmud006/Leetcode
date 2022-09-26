@@ -1,24 +1,24 @@
 class Solution {
 public:
-    bool checkBit(int n, int pos)
+    void gen_subsets(int curr, vector<int> &subset, vector<int> &arr, vector<vector<int>> &res)
     {
-        return (n & (1 << pos)) > 0;
+        if (curr == arr.size())
+        {
+            res.push_back(subset);
+            return;
+        }
+        // arr[curr] include
+        subset.push_back(arr[curr]);
+        gen_subsets(curr + 1, subset, arr, res);
+        subset.pop_back();
+
+        // arr[curr] exclude
+        gen_subsets(curr + 1, subset, arr, res);
     }
     vector<vector<int>> subsets(vector<int>& nums) {
-        vector<int> subset;
         vector<vector<int>> res;
-        int n = nums.size();
-        int nsubset = 1 << n;
-        for (int i = 0; i < nsubset; i++)
-        {
-            vector<int> subset;
-            for (int j = 0; j < nums.size(); j++)
-            {
-                if (checkBit(i, j))
-                    subset.push_back(nums[j]);
-            }
-            res.push_back(subset);
-        }
+        vector<int> subset;
+        gen_subsets(0, subset, nums, res);
         return res;
     }
 };
