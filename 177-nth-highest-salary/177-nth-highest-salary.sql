@@ -3,7 +3,7 @@ BEGIN
 SET N = N-1;
   RETURN (
       # Write your MySQL query statement below.
-      SELECT DISTINCT(Salary) FROM Employee 
-        Order By Salary DESC LIMIT 1 OFFSET N
+      Select DISTINCT(salary) from Employee 
+      Order By salary DESC LIMIT 1 OFFSET N
   );
 END
